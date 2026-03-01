@@ -281,10 +281,12 @@ curl http://localhost:8080/api/vacancies/stats
 curl http://localhost:8080/api/vacancies/tasks
 ```
 ## Возможные проблемы и решения:
-
 Connection refused - Приложение не запущено- Запустите  mvn clean package
+
 404 Not Found - Неверный URL - Проверьте эндпоинт в документации Swagger
+
 Task status FAILED - Проблема с hh.ru API - Проверьте интернет-соединение
+
 H2 консоль не работает - Используйте API для просмотра данных
 
 
