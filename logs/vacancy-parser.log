@@ -1,0 +1,483 @@
+2026-03-01 10:56:51 [main] INFO  c.e.v.VacancyParserApplication - Starting VacancyParserApplication using Java 17.0.17 with PID 10284 (C:\Users\User\Desktop\учеба\java_проекты\vacancy-parser\target\classes started by User in C:\Users\User\Desktop\учеба\java_проекты\vacancy-parser)
+2026-03-01 10:56:51 [main] DEBUG c.e.v.VacancyParserApplication - Running with Spring Boot v4.0.3, Spring v7.0.5
+2026-03-01 10:56:51 [main] INFO  c.e.v.VacancyParserApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-01 10:56:52 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01 10:56:52 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 126 ms. Found 1 JPA repository interface.
+2026-03-01 10:56:53 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-03-01 10:56:53 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-01 10:56:53 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-01 10:56:53 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1597 ms
+2026-03-01 10:56:53 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-01 10:56:53 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:vacancydb user=SA
+2026-03-01 10:56:53 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-01 10:56:53 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-01 10:56:54 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-03-01 10:56:54 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01 10:56:54 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01 10:56:54 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:vacancydb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: VACANCYDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-01 10:56:55 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01 10:56:55 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01 10:56:55 [main] INFO  c.e.v.service.RequestLogDaemon -  Демон-поток обработки логов запущен
+2026-03-01 10:56:55 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-01 10:56:57 [main] INFO  c.e.v.service.DaemonService -  Запуск демон-потоков для мониторинга и логирования
+2026-03-01 10:56:57 [main] INFO  c.e.v.service.DaemonService -  Демон-поток статистики запущен: stats-daemon
+2026-03-01 10:56:57 [main] INFO  c.e.v.service.DaemonService -  Демон-поток мониторинга запущен: monitor-daemon
+2026-03-01 10:56:57 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 118 MB (3,0%), свободная: 81 MB, максимум: 3938 MB
+2026-03-01 10:56:57 [stats-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'transactionManager' in thread "stats-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 10:56:57 [metrics-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'transactionManager' in thread "metrics-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 10:56:57 [stats-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'platformTransactionManagerCustomizers' in thread "stats-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 10:56:57 [stats-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'org.springframework.boot.transaction.autoconfigure.TransactionManagerCustomizationAutoConfiguration' in thread "stats-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 10:56:57 [stats-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'transactionExecutionListeners' in thread "stats-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 10:56:57 [stats-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'spring.transaction-org.springframework.boot.transaction.autoconfigure.TransactionProperties' in thread "stats-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 10:56:57 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:56:57] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 10:56:57 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:56:57] Метрики - по источникам: 0, по городам: 0
+2026-03-01 10:56:57 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01 10:56:57 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-03-01 10:56:57 [main] INFO  c.e.v.VacancyParserApplication - Started VacancyParserApplication in 6.063 seconds (process running for 6.517)
+2026-03-01 10:57:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 10:57:07 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:57:07] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 10:57:12 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:57:12] Метрики - по источникам: 0, по городам: 0
+2026-03-01 10:57:17 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:57:17] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 10:57:20 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-01 10:57:20 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-01 10:57:20 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-03-01 10:57:21 [http-nio-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 772 ms
+2026-03-01 10:57:27 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 141 MB (3,6%), свободная: 58 MB, максимум: 3938 MB
+2026-03-01 10:57:27 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:57:27] Метрики - по источникам: 0, по городам: 0
+2026-03-01 10:57:27 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:57:27] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 10:57:37 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:57:37] Статистика: вакансий: 1, активных задач: 1, всего спарсено: 1
+2026-03-01 10:57:42 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:57:42] Метрики - по источникам: 1, по городам: 1
+2026-03-01 10:57:47 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:57:47] Статистика: вакансий: 1, активных задач: 1, всего спарсено: 1
+2026-03-01 10:57:57 [cleanup-daemon] INFO  c.e.v.service.DaemonService -  [10:57:57] Запуск плановой очистки...
+2026-03-01 10:57:57 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 90 MB (2,3%), свободная: 157 MB, максимум: 3938 MB
+2026-03-01 10:57:57 [cleanup-daemon] INFO  c.e.v.service.DaemonService -   Очищено 1 завершенных задач
+2026-03-01 10:57:57 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:57:57] Метрики - по источникам: 1, по городам: 1
+2026-03-01 10:57:57 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:57:57] Статистика: вакансий: 1, активных задач: 0, всего спарсено: 1
+2026-03-01 10:58:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 10:58:07 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:58:07] Статистика: вакансий: 1, активных задач: 0, всего спарсено: 1
+2026-03-01 10:58:12 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:58:12] Метрики - по источникам: 1, по городам: 1
+2026-03-01 10:58:17 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:58:17] Статистика: вакансий: 1, активных задач: 0, всего спарсено: 1
+2026-03-01 10:58:27 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 94 MB (2,4%), свободная: 153 MB, максимум: 3938 MB
+2026-03-01 10:58:27 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:58:27] Метрики - по источникам: 1, по городам: 1
+2026-03-01 10:58:27 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:58:27] Статистика: вакансий: 1, активных задач: 0, всего спарсено: 1
+2026-03-01 10:58:37 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:58:37] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 1
+2026-03-01 10:58:42 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:58:42] Метрики - по источникам: 0, по городам: 0
+2026-03-01 10:58:47 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:58:47] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 1
+2026-03-01 10:58:57 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 95 MB (2,4%), свободная: 152 MB, максимум: 3938 MB
+2026-03-01 10:58:57 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:58:57] Метрики - по источникам: 0, по городам: 0
+2026-03-01 10:58:57 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:58:57] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 1
+2026-03-01 10:59:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 10:59:07 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:59:07] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 1
+2026-03-01 10:59:12 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:59:12] Метрики - по источникам: 0, по городам: 0
+2026-03-01 10:59:17 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:59:17] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 1
+2026-03-01 10:59:27 [daemon-scheduled-39] INFO  c.e.v.service.DaemonService -  Память - используемая: 95 MB (2,4%), свободная: 152 MB, максимум: 3938 MB
+2026-03-01 10:59:27 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:59:27] Метрики - по источникам: 0, по городам: 0
+2026-03-01 10:59:27 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:59:27] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 1
+2026-03-01 10:59:37 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:59:37] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 1
+2026-03-01 10:59:42 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:59:42] Метрики - по источникам: 0, по городам: 0
+2026-03-01 10:59:47 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:59:47] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 1
+2026-03-01 10:59:57 [daemon-scheduled-39] INFO  c.e.v.service.DaemonService -  Память - используемая: 96 MB (2,4%), свободная: 151 MB, максимум: 3938 MB
+2026-03-01 10:59:57 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [10:59:57] Метрики - по источникам: 0, по городам: 0
+2026-03-01 10:59:57 [stats-daemon] INFO  c.e.v.service.DaemonService - [10:59:57] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 1
+2026-03-01 11:00:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:00:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:00:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:00:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:00:07 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:00:07] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 1
+2026-03-01 11:00:12 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:00:12] Метрики - по источникам: 1, по городам: 2
+2026-03-01 11:00:17 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:00:17] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 1
+2026-03-01 11:00:27 [daemon-scheduled-39] INFO  c.e.v.service.DaemonService -  Память - используемая: 103 MB (2,6%), свободная: 144 MB, максимум: 3938 MB
+2026-03-01 11:00:27 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:00:27] Метрики - по источникам: 1, по городам: 2
+2026-03-01 11:00:27 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:00:27] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 1
+2026-03-01 11:00:32 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-01 11:00:33 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-03-01 11:00:35 [SpringApplicationShutdownHook] INFO  c.e.v.service.DaemonService -  Остановка демон-потоков...
+2026-03-01 11:00:35 [stats-daemon] INFO  c.e.v.service.DaemonService -  Демон-поток статистики прерван
+2026-03-01 11:00:35 [monitor-daemon] INFO  c.e.v.service.DaemonService - Демон-поток мониторинга прерван
+2026-03-01 11:00:35 [SpringApplicationShutdownHook] INFO  c.e.v.service.DaemonService - Все демон-потоки остановлены
+2026-03-01 11:00:35 [log-processor-daemon] INFO  c.e.v.service.RequestLogDaemon - Демон-поток обработки логов прерван
+2026-03-01 11:00:35 [SpringApplicationShutdownHook] INFO  c.e.v.service.RequestLogDaemon -  Демон-поток обработки логов остановлен. Необработанных логов: 0
+2026-03-01 11:00:35 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01 11:00:35 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-01 11:00:35 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-03-01 11:27:30 [main] INFO  c.e.v.VacancyParserApplication - Starting VacancyParserApplication using Java 17.0.17 with PID 4760 (C:\Users\User\Desktop\учеба\java_проекты\vacancy-parser\target\classes started by User in C:\Users\User\Desktop\учеба\java_проекты\vacancy-parser)
+2026-03-01 11:27:30 [main] DEBUG c.e.v.VacancyParserApplication - Running with Spring Boot v4.0.3, Spring v7.0.5
+2026-03-01 11:27:30 [main] INFO  c.e.v.VacancyParserApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-01 11:27:31 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01 11:27:31 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 171 ms. Found 1 JPA repository interface.
+2026-03-01 11:27:32 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-03-01 11:27:32 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-01 11:27:32 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-01 11:27:32 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 1977 ms
+2026-03-01 11:27:32 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-01 11:27:32 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:vacancydb user=SA
+2026-03-01 11:27:32 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-01 11:27:32 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-01 11:27:32 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-03-01 11:27:33 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01 11:27:33 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01 11:27:33 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:vacancydb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: VACANCYDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-01 11:27:34 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01 11:27:34 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01 11:27:34 [main] INFO  c.e.v.service.RequestLogDaemon -  Демон-поток обработки логов запущен
+2026-03-01 11:27:34 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-01 11:27:35 [main] INFO  c.e.v.service.DaemonService -  Запуск демон-потоков для мониторинга и логирования
+2026-03-01 11:27:35 [main] INFO  c.e.v.service.DaemonService -  Демон-поток статистики запущен: stats-daemon
+2026-03-01 11:27:35 [main] INFO  c.e.v.service.DaemonService -  Демон-поток мониторинга запущен: monitor-daemon
+2026-03-01 11:27:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 157 MB (4,0%), свободная: 64 MB, максимум: 3938 MB
+2026-03-01 11:27:35 [stats-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'transactionManager' in thread "stats-daemon" while other thread holds singleton lock for other beans []
+2026-03-01 11:27:35 [main] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'parsingSchedulerService' in thread "main" while other thread holds singleton lock for other beans []
+2026-03-01 11:27:35 [main] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'scheduledExecutor' in thread "main" while other thread holds singleton lock for other beans []
+2026-03-01 11:27:35 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:27:35] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 11:27:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:27:35] Метрики - по источникам: 0, по городам: 0
+2026-03-01 11:27:35 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01 11:27:36 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-03-01 11:27:36 [main] INFO  c.e.v.VacancyParserApplication - Started VacancyParserApplication in 6.635 seconds (process running for 7.195)
+2026-03-01 11:27:45 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:27:45] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 11:27:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:27:50] Метрики - по источникам: 0, по городам: 0
+2026-03-01 11:27:55 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:27:55] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 11:28:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:28:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 112 MB (2,9%), свободная: 109 MB, максимум: 3938 MB
+2026-03-01 11:28:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:28:05] Метрики - по источникам: 0, по городам: 0
+2026-03-01 11:28:05 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:28:05] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 11:28:08 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-01 11:28:08 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-01 11:28:08 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-03-01 11:28:15 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:28:15] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:28:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:28:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:28:25 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:28:25] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:28:35 [cleanup-daemon] INFO  c.e.v.service.DaemonService -  [11:28:35] Запуск плановой очистки...
+2026-03-01 11:28:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 107 MB (2,7%), свободная: 114 MB, максимум: 3938 MB
+2026-03-01 11:28:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:28:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:28:35 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:28:35] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:28:45 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:28:45] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:28:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:28:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:28:55 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:28:55] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:29:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:29:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 108 MB (2,7%), свободная: 113 MB, максимум: 3938 MB
+2026-03-01 11:29:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:29:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:29:05 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:29:05] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:29:15 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:29:15] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:29:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:29:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:29:25 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:29:25] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:29:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 108 MB (2,8%), свободная: 113 MB, максимум: 3938 MB
+2026-03-01 11:29:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:29:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:29:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:29:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:29:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:29:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:29:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:29:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:29:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:29:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:30:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:30:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 108 MB (2,8%), свободная: 113 MB, максимум: 3938 MB
+2026-03-01 11:30:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:30:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:30:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:30:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:30:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:30:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:30:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:30:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:30:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:30:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:30:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 108 MB (2,8%), свободная: 113 MB, максимум: 3938 MB
+2026-03-01 11:30:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:30:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:30:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:30:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:30:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:30:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:30:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:30:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:30:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:30:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:31:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:31:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 108 MB (2,8%), свободная: 113 MB, максимум: 3938 MB
+2026-03-01 11:31:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:31:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:31:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:31:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:31:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:31:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:31:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:31:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:31:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:31:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:31:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 109 MB (2,8%), свободная: 112 MB, максимум: 3938 MB
+2026-03-01 11:31:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:31:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:31:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:31:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:31:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:31:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:31:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:31:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:31:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:31:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:32:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:32:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 109 MB (2,8%), свободная: 112 MB, максимум: 3938 MB
+2026-03-01 11:32:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:32:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:32:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:32:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:32:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:32:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:32:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:32:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:32:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:32:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:32:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 109 MB (2,8%), свободная: 112 MB, максимум: 3938 MB
+2026-03-01 11:32:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:32:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:32:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:32:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:32:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:32:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:32:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:32:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:32:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:32:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:33:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:33:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 109 MB (2,8%), свободная: 112 MB, максимум: 3938 MB
+2026-03-01 11:33:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:33:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:33:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:33:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:33:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:33:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:33:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:33:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:33:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:33:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:33:35 [cleanup-daemon] INFO  c.e.v.service.DaemonService -  [11:33:35] Запуск плановой очистки...
+2026-03-01 11:33:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 109 MB (2,8%), свободная: 112 MB, максимум: 3938 MB
+2026-03-01 11:33:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:33:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:33:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:33:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:33:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:33:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:33:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:33:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:33:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:33:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:34:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:34:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 110 MB (2,8%), свободная: 111 MB, максимум: 3938 MB
+2026-03-01 11:34:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:34:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:34:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:34:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:34:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:34:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:34:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:34:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:34:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:34:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:34:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 110 MB (2,8%), свободная: 111 MB, максимум: 3938 MB
+2026-03-01 11:34:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:34:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:34:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:34:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:34:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:34:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:34:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:34:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:34:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:34:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:35:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:35:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 110 MB (2,8%), свободная: 111 MB, максимум: 3938 MB
+2026-03-01 11:35:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:35:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:35:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:35:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:35:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:35:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:35:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:35:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:35:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:35:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:35:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 110 MB (2,8%), свободная: 111 MB, максимум: 3938 MB
+2026-03-01 11:35:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:35:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:35:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:35:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:35:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:35:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:35:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:35:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:35:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:35:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:36:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:36:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 111 MB (2,8%), свободная: 110 MB, максимум: 3938 MB
+2026-03-01 11:36:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:36:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:36:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:36:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:36:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:36:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:36:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:36:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:36:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:36:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:36:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 111 MB (2,8%), свободная: 110 MB, максимум: 3938 MB
+2026-03-01 11:36:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:36:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:36:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:36:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:36:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:36:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:36:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:36:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:36:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:36:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:37:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:37:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 111 MB (2,8%), свободная: 110 MB, максимум: 3938 MB
+2026-03-01 11:37:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:37:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:37:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:37:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:37:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:37:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:37:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:37:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:37:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:37:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:37:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 111 MB (2,8%), свободная: 110 MB, максимум: 3938 MB
+2026-03-01 11:37:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:37:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:37:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:37:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:37:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:37:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:37:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:37:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:37:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:37:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:38:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:38:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 111 MB (2,8%), свободная: 110 MB, максимум: 3938 MB
+2026-03-01 11:38:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:38:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:38:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:38:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:38:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:38:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:38:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:38:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:38:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:38:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:38:35 [cleanup-daemon] INFO  c.e.v.service.DaemonService -  [11:38:35] Запуск плановой очистки...
+2026-03-01 11:38:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 111 MB (2,8%), свободная: 110 MB, максимум: 3938 MB
+2026-03-01 11:38:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:38:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:38:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:38:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:38:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:38:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:38:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:38:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:38:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:38:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:39:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:39:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 112 MB (2,8%), свободная: 109 MB, максимум: 3938 MB
+2026-03-01 11:39:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:39:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:39:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:39:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:39:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:39:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:39:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:39:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:39:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:39:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:39:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 112 MB (2,8%), свободная: 109 MB, максимум: 3938 MB
+2026-03-01 11:39:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:39:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:39:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:39:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:39:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:39:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:39:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:39:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:39:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:39:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:40:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:40:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 112 MB (2,9%), свободная: 109 MB, максимум: 3938 MB
+2026-03-01 11:40:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:40:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:40:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:40:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:40:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:40:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:40:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:40:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:40:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:40:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:40:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 112 MB (2,9%), свободная: 109 MB, максимум: 3938 MB
+2026-03-01 11:40:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:40:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:40:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:40:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:40:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:40:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:40:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:40:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:40:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:40:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:41:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:41:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 112 MB (2,9%), свободная: 109 MB, максимум: 3938 MB
+2026-03-01 11:41:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:41:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:41:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:41:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:41:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:41:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:41:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:41:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:41:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:41:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:41:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 112 MB (2,9%), свободная: 109 MB, максимум: 3938 MB
+2026-03-01 11:41:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:41:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:41:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:41:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:41:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:41:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:41:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:41:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:41:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:41:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:42:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:42:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 113 MB (2,9%), свободная: 108 MB, максимум: 3938 MB
+2026-03-01 11:42:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:42:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:42:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:42:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:42:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:42:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:42:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:42:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:42:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:42:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:42:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 113 MB (2,9%), свободная: 108 MB, максимум: 3938 MB
+2026-03-01 11:42:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:42:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:42:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:42:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:42:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:42:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:42:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:42:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:42:56 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:42:56] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:43:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 11:43:05 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 113 MB (2,9%), свободная: 108 MB, максимум: 3938 MB
+2026-03-01 11:43:05 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:43:05] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:43:06 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:43:06] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:43:16 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:43:16] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:43:20 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:43:20] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:43:26 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:43:26] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:43:35 [cleanup-daemon] INFO  c.e.v.service.DaemonService -  [11:43:35] Запуск плановой очистки...
+2026-03-01 11:43:35 [daemon-scheduled-36] INFO  c.e.v.service.DaemonService -  Память - используемая: 114 MB (2,9%), свободная: 107 MB, максимум: 3938 MB
+2026-03-01 11:43:35 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:43:35] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:43:36 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:43:36] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:43:46 [stats-daemon] INFO  c.e.v.service.DaemonService - [11:43:46] Статистика: вакансий: 2, активных задач: 0, всего спарсено: 0
+2026-03-01 11:43:48 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-01 11:43:49 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-03-01 11:43:50 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [11:43:50] Метрики - по источникам: 1, по городам: 1
+2026-03-01 11:43:51 [SpringApplicationShutdownHook] INFO  c.e.v.service.DaemonService -  Остановка демон-потоков...
+2026-03-01 11:43:51 [stats-daemon] INFO  c.e.v.service.DaemonService -  Демон-поток статистики прерван
+2026-03-01 11:43:51 [monitor-daemon] INFO  c.e.v.service.DaemonService - Демон-поток мониторинга прерван
+2026-03-01 11:43:51 [SpringApplicationShutdownHook] INFO  c.e.v.service.DaemonService - Все демон-потоки остановлены
+2026-03-01 11:43:51 [log-processor-daemon] INFO  c.e.v.service.RequestLogDaemon - Демон-поток обработки логов прерван
+2026-03-01 11:43:51 [SpringApplicationShutdownHook] INFO  c.e.v.service.RequestLogDaemon -  Демон-поток обработки логов остановлен. Необработанных логов: 0
+2026-03-01 11:43:51 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01 11:43:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-01 11:43:51 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2026-03-01 12:12:44 [main] INFO  c.e.v.VacancyParserApplication - Starting VacancyParserApplication v1.0.0 using Java 17.0.17 with PID 22220 (C:\Users\User\Desktop\учеба\java_проекты\vacancy-parser\target\vacancy-parser-1.0.0.jar started by User in C:\Users\User\Desktop\учеба\java_проекты\vacancy-parser)
+2026-03-01 12:12:44 [main] DEBUG c.e.v.VacancyParserApplication - Running with Spring Boot v4.0.3, Spring v7.0.5
+2026-03-01 12:12:44 [main] INFO  c.e.v.VacancyParserApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-01 12:12:47 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01 12:12:47 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 372 ms. Found 1 JPA repository interface.
+2026-03-01 12:12:49 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-03-01 12:12:49 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-01 12:12:49 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-01 12:12:50 [main] INFO  o.s.b.w.c.s.WebApplicationContextInitializer - Root WebApplicationContext: initialization completed in 5664 ms
+2026-03-01 12:12:50 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-01 12:12:50 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:vacancydb user=SA
+2026-03-01 12:12:50 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-01 12:12:51 [main] INFO  org.hibernate.orm.jpa - HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-01 12:12:51 [main] INFO  org.hibernate.orm.core - HHH000001: Hibernate ORM core version 7.2.4.Final
+2026-03-01 12:12:52 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01 12:12:52 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01 12:12:53 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:vacancydb]
+	Database driver: H2 JDBC Driver
+	Database dialect: H2Dialect
+	Database version: 2.4.240
+	Default catalog/schema: VACANCYDB/PUBLIC
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: 100
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-01 12:12:54 [main] INFO  org.hibernate.orm.core - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01 12:12:55 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01 12:12:55 [main] INFO  c.e.v.service.RequestLogDaemon -  Демон-поток обработки логов запущен
+2026-03-01 12:12:55 [main] INFO  o.s.d.j.r.q.QueryEnhancerFactories - Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-01 12:12:58 [main] INFO  c.e.v.service.DaemonService -  Запуск демон-потоков для мониторинга и логирования
+2026-03-01 12:12:58 [main] INFO  c.e.v.service.DaemonService -  Демон-поток статистики запущен: stats-daemon
+2026-03-01 12:12:58 [main] INFO  c.e.v.service.DaemonService -  Демон-поток мониторинга запущен: monitor-daemon
+2026-03-01 12:12:58 [daemon-scheduled-37] INFO  c.e.v.service.DaemonService -  Память - используемая: 109 MB (2,8%), свободная: 150 MB, максимум: 3938 MB
+2026-03-01 12:12:58 [metrics-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'transactionManager' in thread "metrics-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 12:12:58 [stats-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'transactionManager' in thread "stats-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 12:12:58 [metrics-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'platformTransactionManagerCustomizers' in thread "metrics-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 12:12:58 [metrics-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'org.springframework.boot.transaction.autoconfigure.TransactionManagerCustomizationAutoConfiguration' in thread "metrics-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 12:12:58 [metrics-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'transactionExecutionListeners' in thread "metrics-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 12:12:58 [metrics-daemon] INFO  o.s.b.f.s.DefaultListableBeanFactory - Obtaining singleton bean 'spring.transaction-org.springframework.boot.transaction.autoconfigure.TransactionProperties' in thread "metrics-daemon" while other thread holds singleton lock for other beans [parsingSchedulerService]
+2026-03-01 12:12:59 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:12:58] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 12:12:59 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:12:58] Метрики - по источникам: 0, по городам: 0
+2026-03-01 12:12:59 [main] WARN  o.s.b.j.a.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01 12:13:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 12:13:01 [main] INFO  o.s.boot.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-03-01 12:13:01 [main] INFO  c.e.v.VacancyParserApplication - Started VacancyParserApplication in 18.617 seconds (process running for 20.376)
+2026-03-01 12:13:06 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-01 12:13:06 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-01 12:13:06 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2026-03-01 12:13:08 [http-nio-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 1377 ms
+2026-03-01 12:13:09 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:13:09] Статистика: вакансий: 0, активных задач: 0, всего спарсено: 0
+2026-03-01 12:13:13 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:13:13] Метрики - по источникам: 0, по городам: 0
+2026-03-01 12:13:19 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:13:19] Статистика: вакансий: 0, активных задач: 1, всего спарсено: 0
+2026-03-01 12:13:28 [daemon-scheduled-37] INFO  c.e.v.service.DaemonService -  Память - используемая: 93 MB (2,4%), свободная: 54 MB, максимум: 3938 MB
+2026-03-01 12:13:28 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:13:28] Метрики - по источникам: 1, по городам: 1
+2026-03-01 12:13:29 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:13:29] Статистика: вакансий: 1, активных задач: 1, всего спарсено: 1
+2026-03-01 12:13:39 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:13:39] Статистика: вакансий: 1, активных задач: 1, всего спарсено: 1
+2026-03-01 12:13:43 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:13:43] Метрики - по источникам: 1, по городам: 1
+2026-03-01 12:13:49 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:13:49] Статистика: вакансий: 1, активных задач: 1, всего спарсено: 1
+2026-03-01 12:13:57 [http-nio-8080-exec-2] WARN  org.hibernate.orm.jdbc.error - HHH000247: ErrorCode: 90022, SQLState: 90022
+2026-03-01 12:13:57 [http-nio-8080-exec-2] WARN  org.hibernate.orm.jdbc.error - Функция "DATE" не найдена
+Function "DATE" not found; SQL statement:
+SELECT DATE(v.posted_date), COUNT(*) FROM vacancies v GROUP BY DATE(v.posted_date) ORDER BY DATE(v.posted_date) [90022-240]
+2026-03-01 12:13:58 [daemon-scheduled-37] INFO  c.e.v.service.DaemonService -  Память - используемая: 107 MB (2,7%), свободная: 40 MB, максимум: 3938 MB
+2026-03-01 12:13:58 [cleanup-daemon] INFO  c.e.v.service.DaemonService -  [12:13:58] Запуск плановой очистки...
+2026-03-01 12:13:58 [cleanup-daemon] INFO  c.e.v.service.DaemonService -   Очищено 1 завершенных задач
+2026-03-01 12:13:58 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:13:58] Метрики - по источникам: 1, по городам: 1
+2026-03-01 12:13:59 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:13:59] Статистика: вакансий: 1, активных задач: 0, всего спарсено: 1
+2026-03-01 12:14:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 12:14:09 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:14:09] Статистика: вакансий: 1, активных задач: 0, всего спарсено: 1
+2026-03-01 12:14:13 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:14:13] Метрики - по источникам: 1, по городам: 1
+2026-03-01 12:14:19 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:14:19] Статистика: вакансий: 1, активных задач: 0, всего спарсено: 1
+2026-03-01 12:14:28 [daemon-scheduled-37] INFO  c.e.v.service.DaemonService -  Память - используемая: 112 MB (2,9%), свободная: 35 MB, максимум: 3938 MB
+2026-03-01 12:14:28 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:14:28] Метрики - по источникам: 1, по городам: 3
+2026-03-01 12:14:29 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:14:29] Статистика: вакансий: 3, активных задач: 2, всего спарсено: 3
+2026-03-01 12:14:39 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:14:39] Статистика: вакансий: 3, активных задач: 2, всего спарсено: 3
+2026-03-01 12:14:43 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:14:43] Метрики - по источникам: 1, по городам: 3
+2026-03-01 12:14:49 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:14:49] Статистика: вакансий: 3, активных задач: 2, всего спарсено: 3
+2026-03-01 12:14:58 [daemon-scheduled-37] INFO  c.e.v.service.DaemonService -  Память - используемая: 113 MB (2,9%), свободная: 34 MB, максимум: 3938 MB
+2026-03-01 12:14:58 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:14:58] Метрики - по источникам: 1, по городам: 3
+2026-03-01 12:14:59 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:14:59] Статистика: вакансий: 3, активных задач: 2, всего спарсено: 3
+2026-03-01 12:15:00 [log-processor-daemon] DEBUG c.e.v.service.RequestLogDaemon - Очередь логов: размер = 0, свободно = 1000
+2026-03-01 12:15:09 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:15:09] Статистика: вакансий: 3, активных задач: 2, всего спарсено: 3
+2026-03-01 12:15:13 [metrics-daemon] DEBUG c.e.v.service.DaemonService -  [12:15:13] Метрики - по источникам: 1, по городам: 3
+2026-03-01 12:15:17 [SpringApplicationShutdownHook] INFO  o.s.boot.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-01 12:15:18 [tomcat-shutdown] INFO  o.s.boot.tomcat.GracefulShutdown - Graceful shutdown complete
+2026-03-01 12:15:19 [stats-daemon] INFO  c.e.v.service.DaemonService - [12:15:19] Статистика: вакансий: 3, активных задач: 2, всего спарсено: 3
+2026-03-01 12:15:20 [SpringApplicationShutdownHook] INFO  c.e.v.service.DaemonService -  Остановка демон-потоков...
+2026-03-01 12:15:20 [stats-daemon] INFO  c.e.v.service.DaemonService -  Демон-поток статистики прерван
+2026-03-01 12:15:20 [monitor-daemon] INFO  c.e.v.service.DaemonService - Демон-поток мониторинга прерван
+2026-03-01 12:15:20 [SpringApplicationShutdownHook] INFO  c.e.v.service.DaemonService - Все демон-потоки остановлены
+2026-03-01 12:15:20 [log-processor-daemon] INFO  c.e.v.service.RequestLogDaemon - Демон-поток обработки логов прерван
+2026-03-01 12:15:20 [SpringApplicationShutdownHook] INFO  c.e.v.service.RequestLogDaemon -  Демон-поток обработки логов остановлен. Необработанных логов: 0
+2026-03-01 12:15:20 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01 12:15:20 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2026-03-01 12:15:20 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
