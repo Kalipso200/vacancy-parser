@@ -16,42 +16,6 @@
 - Реактивный (потоковый) парсинг
 - Мониторинг через демон-потоки
 - Интерактивная документация Swagger UI
-
-### Структура проекта
-
-vacancy-parser/
-├── pom.xml
-├── src/main/java/com/example/vacancyparser/
-│   ├── VacancyParserApplication.java
-│   ├── config/
-│   │   ├── AsyncConfig.java          # Настройка ExecutorService и ForkJoinPool
-│   │   ├── WebClientConfig.java      # Настройка WebClient для hh.ru
-│   │   └── OpenAPIConfig.java        # Настройка Swagger
-|   |   |__ WebConfig.java            # Файл для перехвата HTTP запросов 
-│   ├── controller/
-│   │   ├── HomeController.java       # Базовые эндпоинты (/, /health)
-│   │   └── VacancyController.java    # Основное API для вакансий
-│   ├── exception/
-│   │   └── GlobalExceptionHandler.java # Глобальная обработка ошибок
-│   ├── model/
-│   │   ├── Vacancy.java              # JPA сущность вакансии
-│   │   └── ParserTask.java           # Модель задачи парсинга
-│   ├── repository/
-│   │   └── VacancyJpaRepository.java # JPA репозиторий
-│   └── service/
-│       ├── parser/
-│       │   ├── SiteParser.java       # Интерфейс парсера
-│       │   ├── HhRuParser.java       # Парсер для hh.ru
-│       │   └── VacancyParserService.java # Основной сервис парсинга
-│       ├── scheduler/
-│       │   └── ParsingSchedulerService.java # Планировщик задач
-│       ├── storage/
-│       │   └── VacancyJpaStorageService.java # Сервис для работы с БД
-│       └── DaemonService.java        # Демон-потоки для мониторинга
-└── src/main/resources/
-├── application.properties        # Конфигурация приложения
-
-
 ## Технологический стек
 
 | Компонент | Технология | Назначение |
@@ -139,38 +103,41 @@ scheduled-daemons: сбор метрик и очистка
 
 ## Детальное описание API
 Базовые эндпоинты
-Метод	Эндпоинт	Описание	Параметры
-GET	/	Информация о приложении	-
+```
+GET	/	Информация о приложении	
 GET	/health	Проверка работоспособности
-
+```
 Работа с вакансиями
+```
 GET	/api/vacancies - Все вакансии (пагинация)
 GET	/api/vacancies/{id}	Вакансия по ID
 GET	/api/vacancies/external/{externalId}	Вакансия по внешнему ID
 GET	/api/vacancies/stats	Статистика
 DELETE	/api/vacancies/clear	Очистить все вакансии
-
+```
 Поиск вакансий
-
+```
 GET	/api/vacancies/search	Поиск по критериям	company, city, title, source, from, to
 GET	/api/vacancies/search/advanced	Расширенный поиск	company, city, title
 GET	/api/vacancies/search/skill/{skill}	Поиск по ключевому навыку
-
+```
 Парсинг вакансий
-Метод	Эндпоинт	Описание	Тело запроса
+```
 POST	/api/vacancies/parse	Парсинг одной вакансии	{"url": "https://api.hh.ru/vacancy/130807895"}
 POST	/api/vacancies/parse-multiple	Парсинг нескольких	["url1", "url2", "url3"]
 POST	/api/vacancies/parse-reactive	Реактивный парсинг	["url1", "url2", "url3"]
-
+```
 Управление задачами
+```
 GET	/api/vacancies/tasks	Все активные задачи
 GET	/api/vacancies/tasks/{taskId}	Статус задачи
 DELETE	/api/vacancies/tasks/{taskId}	Удалить задачу
-
+```
 Документация
+```
 GET	/swagger-ui.html	Интерактивная документация Swagger
 GET	/api-docs	OpenAPI JSON спецификация
-
+```
 ## Демонстрация многопоточности
 1. Последовательность действий для проверки
    Шаг 1: Парсинг одной вакансии
@@ -315,10 +282,10 @@ curl http://localhost:8080/api/vacancies/tasks
 ```
 ## Возможные проблемы и решения:
 
-Connection refused- Приложение не запущено- Запустите  mvn clean package
-404 Not Found - Неверный UR - Проверьте эндпоинт в документации Swagger
-Task status FAILED- Проблема с hh.ru API - Проверьте интернет-соединение
-H2 консоль не работает - Отключена в production	- Используйте API для просмотра данных
+Connection refused - Приложение не запущено- Запустите  mvn clean package
+404 Not Found - Неверный URL - Проверьте эндпоинт в документации Swagger
+Task status FAILED - Проблема с hh.ru API - Проверьте интернет-соединение
+H2 консоль не работает - Используйте API для просмотра данных
 
 
 
