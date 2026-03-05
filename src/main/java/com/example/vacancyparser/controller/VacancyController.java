@@ -2,6 +2,7 @@ package com.example.vacancyparser.controller;
 
 import com.example.vacancyparser.model.ParserTask;
 import com.example.vacancyparser.model.Vacancy;
+import com.example.vacancyparser.service.parser.HhRuParser;
 import com.example.vacancyparser.service.parser.VacancyParserService;
 import com.example.vacancyparser.service.storage.VacancyJpaStorageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/vacancies")
+@CrossOrigin(origins = {"http://localhost:8080", "http://127.0.0.1:8080"})
 @Tag(name = "Vacancies", description = "Управление вакансиями и парсинг")
 public class VacancyController {
     private final VacancyParserService parserService;
@@ -119,19 +121,35 @@ public class VacancyController {
     })
     public ResponseEntity<Map<String, Object>> getStats() {
         Map<String, Object> stats = new HashMap<>();
-        stats.put("totalVacancies", storageService.getTotalCount());
-        stats.put("activeTasks", parserService.getAllTasks().size());
-        stats.put("totalParsed", parserService.getTotalParsedCount());
-        stats.put("bySource", storageService.getStatsBySource());
-        stats.put("byCity", storageService.getStatsByCity());
-        stats.put("byDay", storageService.getStatsByDay());
+
+        try {
+            stats.put("totalVacancies", storageService.getTotalCount());
+            stats.put("activeTasks", parserService.getAllTasks().size());
+            stats.put("totalParsed", parserService.getTotalParsedCount());
+            stats.put("bySource", storageService.getStatsBySource());
+            stats.put("byCity", storageService.getStatsByCity());
+
+            // Защищаем метод getStatsByDay от ошибок
+            try {
+                stats.put("byDay", storageService.getStatsByDay());
+            } catch (Exception e) {
+                stats.put("byDay", Map.of("error", e.getMessage()));
+                System.err.println("Error in getStatsByDay: " + e.getMessage());
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                    "error", "Internal Server Error",
+                    "message", e.getMessage()
+            ));
+        }
 
         return ResponseEntity.ok(stats);
     }
 
     @GetMapping("/search")
-    @Operation(summary = "Поиск вакансий",
-            description = "Поиск вакансий по различным критериям")
+    @Operation(summary = "Поиск вакансий в локальной БД",
+            description = "Поиск вакансий по различным критериям в сохраненных данных")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Поиск выполнен успешно",
                     content = @Content(mediaType = "application/json",
@@ -174,7 +192,7 @@ public class VacancyController {
     }
 
     @GetMapping("/search/advanced")
-    @Operation(summary = "Расширенный поиск",
+    @Operation(summary = "Расширенный поиск в локальной БД",
             description = "Комбинированный поиск по нескольким параметрам одновременно")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Поиск выполнен успешно"),
@@ -190,7 +208,7 @@ public class VacancyController {
     }
 
     @GetMapping("/search/skill/{skill}")
-    @Operation(summary = "Поиск по ключевому навыку",
+    @Operation(summary = "Поиск по ключевому навыку в локальной БД",
             description = "Поиск вакансий, содержащих указанный ключевой навык")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Поиск выполнен успешно"),
@@ -202,6 +220,165 @@ public class VacancyController {
         List<Vacancy> results = storageService.searchByKeySkill(skill);
         return ResponseEntity.ok(results);
     }
+
+    // ========== НОВЫЕ МЕТОДЫ ДЛЯ ПОИСКА НА HH.RU ==========
+
+    @GetMapping("/search/hh")
+    @Operation(summary = "Поиск вакансий на hh.ru",
+            description = "Поиск вакансий по параметрам и автоматическое сохранение результатов")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Поиск выполнен успешно"),
+            @ApiResponse(responseCode = "500", description = "Ошибка при поиске")
+    })
+    public ResponseEntity<?> searchHhVacancies(
+            @Parameter(description = "Поисковый запрос (текст)", example = "Java")
+            @RequestParam(required = false) String text,
+
+            @Parameter(description = "Код региона (1 - Москва, 2 - СПб)", example = "1")
+            @RequestParam(required = false) Integer area,
+
+            @Parameter(description = "Минимальная зарплата", example = "100000")
+            @RequestParam(required = false) Integer salary,
+
+            @Parameter(description = "Валюта (RUR, USD, EUR)", example = "RUR")
+            @RequestParam(required = false) String currency,
+
+            @Parameter(description = "Только с указанной зарплатой", example = "true")
+            @RequestParam(required = false) Boolean onlyWithSalary,
+
+            @Parameter(description = "Опыт работы (noExperience, between1And3, between3And6, moreThan6)",
+                    example = "between1And3")
+            @RequestParam(required = false) String experience,
+
+            @Parameter(description = "Тип занятости (full, part, project, volunteer)",
+                    example = "full")
+            @RequestParam(required = false) String employment,
+
+            @Parameter(description = "График работы (fullDay, shift, flexible, remote)",
+                    example = "fullDay")
+            @RequestParam(required = false) String schedule,
+
+            @Parameter(description = "Страница (начиная с 0)", example = "0")
+            @RequestParam(defaultValue = "0") Integer page,
+
+            @Parameter(description = "Результатов на странице (макс. 100)", example = "20")
+            @RequestParam(defaultValue = "20") Integer perPage) {
+
+        try {
+            HhRuParser hhParser = (HhRuParser) parserService.getParserForSource("hh.ru");
+            if (hhParser == null) {
+                return ResponseEntity.status(500).body(Map.of(
+                        "error", "HH.ru parser not available"
+                ));
+            }
+
+            // Создаем параметры поиска
+            HhRuParser.SearchParams params = HhRuParser.SearchParams.builder()
+                    .withText(text)
+                    .withArea(area)
+                    .withSalary(salary)
+                    .withCurrency(currency)
+                    .withOnlyWithSalary(onlyWithSalary)
+                    .withExperience(experience)
+                    .withEmployment(employment)
+                    .withSchedule(schedule)
+                    .withPage(page)
+                    .withPerPage(perPage);
+
+            // Выполняем поиск
+            List<Vacancy> foundVacancies = hhParser.searchVacancies(params);
+
+            // Сохраняем найденные вакансии
+            List<Vacancy> savedVacancies = storageService.saveAll(foundVacancies);
+
+            return ResponseEntity.ok(Map.of(
+                    "found", foundVacancies.size(),
+                    "saved", savedVacancies.size(),
+                    "page", page,
+                    "perPage", perPage,
+                    "vacancies", savedVacancies
+            ));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of(
+                    "error", "Search failed",
+                    "message", e.getMessage()
+            ));
+        }
+    }
+
+    @GetMapping("/search/hh/reactive")
+    @Operation(summary = "Реактивный поиск вакансий на hh.ru",
+            description = "Потоковый поиск всех страниц результатов с автоматическим сохранением")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Поток данных"),
+            @ApiResponse(responseCode = "500", description = "Ошибка при поиске")
+    })
+    public Flux<Vacancy> searchHhVacanciesReactive(
+            @Parameter(description = "Поисковый запрос", required = true, example = "Java")
+            @RequestParam String text,
+
+            @Parameter(description = "Код региона (1 - Москва, 2 - СПб)", example = "1")
+            @RequestParam(required = false) Integer area,
+
+            @Parameter(description = "Минимальная зарплата", example = "100000")
+            @RequestParam(required = false) Integer salary,
+
+            @Parameter(description = "Результатов на странице", example = "20")
+            @RequestParam(defaultValue = "20") Integer perPage) {
+
+        try {
+            HhRuParser hhParser = (HhRuParser) parserService.getParserForSource("hh.ru");
+            if (hhParser == null) {
+                return Flux.error(new RuntimeException("HH.ru parser not available"));
+            }
+
+            HhRuParser.SearchParams params = HhRuParser.SearchParams.builder()
+                    .withText(text)
+                    .withArea(area)
+                    .withSalary(salary)
+                    .withPerPage(perPage);
+
+            return hhParser.searchVacanciesReactive(params)
+                    .doOnNext(vacancy -> {
+                        try {
+                            storageService.save(vacancy);
+                        } catch (Exception e) {
+                            System.err.println("Error saving vacancy: " + e.getMessage());
+                        }
+                    })
+                    .doOnComplete(() -> System.out.println("Reactive search completed"));
+
+        } catch (Exception e) {
+            return Flux.error(e);
+        }
+    }
+
+    @GetMapping("/search/hh/areas")
+    @Operation(summary = "Получить список регионов hh.ru",
+            description = "Возвращает коды регионов для использования в поиске")
+    public ResponseEntity<Map<String, Object>> getHhAreas() {
+        Map<String, Object> areas = new HashMap<>();
+        areas.put("Москва", 1);
+        areas.put("Санкт-Петербург", 2);
+        areas.put("Екатеринбург", 3);
+        areas.put("Новосибирск", 4);
+        areas.put("Казань", 88);
+        areas.put("Краснодар", 53);
+        areas.put("Ростов-на-Дону", 76);
+        areas.put("Нижний Новгород", 66);
+        areas.put("Самара", 78);
+        areas.put("Уфа", 99);
+        areas.put("Вся Россия", 113);
+
+        return ResponseEntity.ok(Map.of(
+                "areas", areas,
+                "note", "Используйте code в параметре area"
+        ));
+    }
+
+    // ========== ОСНОВНЫЕ МЕТОДЫ ПАРСИНГА ==========
 
     @PostMapping("/parse")
     @Operation(summary = "Парсинг одной вакансии",
@@ -216,7 +393,7 @@ public class VacancyController {
     })
     public ResponseEntity<?> parseVacancy(
             @Parameter(description = "Объект с URL вакансии", required = true,
-                    schema = @Schema(example = "{\"url\": \"https://api.hh.ru/vacancies/130800500\"}"))
+                    schema = @Schema(example = "{\"url\": \"https://hh.ru/vacancy/130504644\"}"))
             @RequestBody Map<String, String> request) {
 
         String url = request.get("url");
@@ -265,6 +442,8 @@ public class VacancyController {
         return parserService.parseMultipleUrlsReactive(urls);
     }
 
+    // ========== УПРАВЛЕНИЕ ЗАДАЧАМИ ==========
+
     @GetMapping("/tasks")
     @Operation(summary = "Получить все задачи",
             description = "Возвращает список всех активных задач парсинга")
@@ -306,6 +485,8 @@ public class VacancyController {
         parserService.removeCompletedTask(taskId);
         return ResponseEntity.ok(Map.of("message", "Task removed successfully"));
     }
+
+    // ========== ОЧИСТКА ДАННЫХ ==========
 
     @DeleteMapping("/clear")
     @Operation(summary = "Очистить все вакансии",

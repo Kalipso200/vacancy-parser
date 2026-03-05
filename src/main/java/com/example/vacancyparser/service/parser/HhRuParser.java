@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
@@ -86,6 +87,156 @@ public class HhRuParser implements SiteParser {
         return null;
     }
 
+    /**
+     * НОВЫЙ МЕТОД: Поиск вакансий по параметрам
+     * @param searchParams параметры поиска (текст, город, зарплата и т.д.)
+     * @return список найденных вакансий
+     */
+    public List<Vacancy> searchVacancies(SearchParams searchParams) {
+        List<Vacancy> results = new ArrayList<>();
+
+        try {
+            // Формируем URL с параметрами поиска
+            String uri = "/vacancies?" + searchParams.toQueryString();
+
+            String response = webClient.get()
+                    .uri(uri)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .retryWhen(Retry.backoff(3, Duration.ofSeconds(2)))
+                    .timeout(Duration.ofSeconds(30))
+                    .block();
+
+            if (response != null) {
+                JsonNode root = objectMapper.readTree(response);
+                JsonNode items = root.get("items");
+
+                if (items != null && items.isArray()) {
+                    for (JsonNode item : items) {
+                        Vacancy vacancy = mapSearchResultToVacancy(item);
+                        if (vacancy != null) {
+                            results.add(vacancy);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error searching vacancies: " + e.getMessage());
+        }
+
+        return results;
+    }
+
+    /**
+     * НОВЫЙ МЕТОД: Поиск вакансий с пагинацией (реактивный поток)
+     */
+    public Flux<Vacancy> searchVacanciesReactive(SearchParams searchParams) {
+        String uri = "/vacancies?" + searchParams.toQueryString();
+
+        return webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(String.class)
+                .flatMapMany(response -> {
+                    try {
+                        JsonNode root = objectMapper.readTree(response);
+                        JsonNode items = root.get("items");
+                        JsonNode page = root.get("page");
+                        JsonNode pages = root.get("pages");
+
+                        System.out.println("Поиск вакансий: страница " + page + " из " + pages);
+
+                        List<Flux<Vacancy>> fluxes = new ArrayList<>();
+
+                        // Добавляем текущую страницу
+                        if (items != null && items.isArray()) {
+                            fluxes.add(Flux.fromIterable(items)
+                                    .map(this::mapSearchResultToVacancy)
+                                    .filter(v -> v != null));
+                        }
+
+                        // Рекурсивно загружаем следующие страницы
+                        int currentPage = page.asInt();
+                        int totalPages = pages.asInt();
+
+                        if (currentPage < totalPages - 1) {
+                            SearchParams nextParams = searchParams.withPage(currentPage + 1);
+                            fluxes.add(searchVacanciesReactive(nextParams));
+                        }
+
+                        return Flux.concat(fluxes);
+
+                    } catch (Exception e) {
+                        return Flux.error(e);
+                    }
+                });
+    }
+
+    /**
+     * Преобразование результата поиска в вакансию
+     */
+    private Vacancy mapSearchResultToVacancy(JsonNode item) {
+        Vacancy vacancy = new Vacancy();
+
+        // ID и URL
+        if (item.has("id") && !item.get("id").isNull()) {
+            vacancy.setExternalId(item.get("id").asText());
+            vacancy.setUrl("https://hh.ru/vacancy/" + item.get("id").asText());
+        }
+
+        // Название
+        if (item.has("name") && !item.get("name").isNull()) {
+            vacancy.setTitle(item.get("name").asText());
+        }
+
+        // Компания
+        if (item.has("employer") && !item.get("employer").isNull()) {
+            JsonNode employer = item.get("employer");
+            if (employer.has("name") && !employer.get("name").isNull()) {
+                vacancy.setCompany(employer.get("name").asText());
+            }
+        }
+
+        // Зарплата
+        if (item.has("salary") && !item.get("salary").isNull()) {
+            vacancy.setSalary(formatSalary(item.get("salary")));
+        }
+
+        // Город
+        if (item.has("area") && !item.get("area").isNull()) {
+            JsonNode area = item.get("area");
+            if (area.has("name") && !area.get("name").isNull()) {
+                vacancy.setCity(area.get("name").asText());
+            }
+        }
+
+        // Требования из сниппета
+        if (item.has("snippet") && !item.get("snippet").isNull()) {
+            JsonNode snippet = item.get("snippet");
+            StringBuilder req = new StringBuilder();
+
+            if (snippet.has("requirement") && !snippet.get("requirement").isNull()) {
+                req.append("Требования: ").append(cleanHtml(snippet.get("requirement").asText()));
+            }
+            if (snippet.has("responsibility") && !snippet.get("responsibility").isNull()) {
+                if (req.length() > 0) req.append("\n\n");
+                req.append("Обязанности: ").append(cleanHtml(snippet.get("responsibility").asText()));
+            }
+
+            vacancy.setRequirements(req.toString());
+        }
+
+        // Дата публикации
+        if (item.has("published_at") && !item.get("published_at").isNull()) {
+            vacancy.setPostedDate(parseHhDate(item.get("published_at").asText()));
+        }
+
+        vacancy.setSource("hh.ru");
+        vacancy.setArchived(item.has("archived") && item.get("archived").asBoolean());
+
+        return vacancy;
+    }
+
     private String extractVacancyId(String url) {
         String cleanUrl = url.split("\\?")[0];
         String[] parts = cleanUrl.split("/");
@@ -105,12 +256,10 @@ public class HhRuParser implements SiteParser {
         vacancy.setUrl(url);
         vacancy.setExternalId(extractVacancyId(url));
 
-        // Название
         if (root.has("name") && !root.get("name").isNull()) {
             vacancy.setTitle(root.get("name").asText());
         }
 
-        // Компания
         if (root.has("employer") && !root.get("employer").isNull()) {
             JsonNode employer = root.get("employer");
             if (employer.has("name") && !employer.get("name").isNull()) {
@@ -118,12 +267,10 @@ public class HhRuParser implements SiteParser {
             }
         }
 
-        // Зарплата
         if (root.has("salary") && !root.get("salary").isNull()) {
             vacancy.setSalary(formatSalary(root.get("salary")));
         }
 
-        // Описание и требования
         StringBuilder fullText = new StringBuilder();
         List<String> skills = new ArrayList<>();
 
@@ -144,7 +291,6 @@ public class HhRuParser implements SiteParser {
             }
         }
 
-        // Собираем требования
         StringBuilder requirements = new StringBuilder();
         if (!skills.isEmpty()) {
             requirements.append("Ключевые навыки: ").append(String.join(", ", skills)).append("\n\n");
@@ -161,7 +307,6 @@ public class HhRuParser implements SiteParser {
         vacancy.setRequirements(requirements.length() > 5000 ?
                 requirements.substring(0, 5000) + "..." : requirements.toString());
 
-        // Город
         if (root.has("area") && !root.get("area").isNull()) {
             JsonNode area = root.get("area");
             if (area.has("name") && !area.get("name").isNull()) {
@@ -169,12 +314,10 @@ public class HhRuParser implements SiteParser {
             }
         }
 
-        // Дата публикации
         if (root.has("created_at") && !root.get("created_at").isNull()) {
             vacancy.setPostedDate(parseHhDate(root.get("created_at").asText()));
         }
 
-        // Архивация
         if (root.has("archived") && !root.get("archived").isNull()) {
             vacancy.setArchived(root.get("archived").asBoolean());
         }
@@ -231,6 +374,129 @@ public class HhRuParser implements SiteParser {
             } catch (DateTimeParseException ex) {
                 return LocalDateTime.now();
             }
+        }
+    }
+
+    /**
+     * Внутренний класс для параметров поиска
+     */
+    public static class SearchParams {
+        private String text;
+        private Integer area;
+        private Integer salary;
+        private String currency;
+        private Boolean onlyWithSalary;
+        private String experience;
+        private String employment;
+        private String schedule;
+        private Integer page;
+        private Integer perPage;
+
+        private SearchParams() {
+            this.page = 0;
+            this.perPage = 20;
+        }
+
+        public static SearchParams builder() {
+            return new SearchParams();
+        }
+
+        public SearchParams withText(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public SearchParams withArea(Integer area) {
+            this.area = area;
+            return this;
+        }
+
+        public SearchParams withSalary(Integer salary) {
+            this.salary = salary;
+            return this;
+        }
+
+        public SearchParams withCurrency(String currency) {
+            this.currency = currency;
+            return this;
+        }
+
+        public SearchParams withOnlyWithSalary(Boolean onlyWithSalary) {
+            this.onlyWithSalary = onlyWithSalary;
+            return this;
+        }
+
+        public SearchParams withExperience(String experience) {
+            this.experience = experience;
+            return this;
+        }
+
+        public SearchParams withEmployment(String employment) {
+            this.employment = employment;
+            return this;
+        }
+
+        public SearchParams withSchedule(String schedule) {
+            this.schedule = schedule;
+            return this;
+        }
+
+        public SearchParams withPage(Integer page) {
+            this.page = page;
+            return this;
+        }
+
+        public SearchParams withPerPage(Integer perPage) {
+            this.perPage = perPage;
+            return this;
+        }
+
+        public SearchParams withPage(int page) {
+            this.page = page;
+            return this;
+        }
+
+        public String toQueryString() {
+            StringBuilder query = new StringBuilder();
+
+            if (text != null && !text.isEmpty()) {
+                query.append("text=").append(text.replace(" ", "+")).append("&");
+            }
+            if (area != null) {
+                query.append("area=").append(area).append("&");
+            }
+            if (salary != null) {
+                query.append("salary=").append(salary).append("&");
+            }
+            if (currency != null) {
+                query.append("currency=").append(currency).append("&");
+            }
+            if (onlyWithSalary != null) {
+                query.append("only_with_salary=").append(onlyWithSalary).append("&");
+            }
+            if (experience != null) {
+                query.append("experience=").append(experience).append("&");
+            }
+            if (employment != null) {
+                query.append("employment=").append(employment).append("&");
+            }
+            if (schedule != null) {
+                query.append("schedule=").append(schedule).append("&");
+            }
+            if (page != null) {
+                query.append("page=").append(page).append("&");
+            }
+            if (perPage != null) {
+                query.append("per_page=").append(perPage).append("&");
+            }
+
+            // Удаляем последний & если есть
+            String result = query.toString();
+            if (result.endsWith("&")) {
+                result = result.substring(0, result.length() - 1);
+            }
+
+            return result;
         }
     }
 }

@@ -165,15 +165,30 @@ public class VacancyJpaStorageService {
     public Map<LocalDate, Long> getStatsByDay() {
         Map<LocalDate, Long> stats = new LinkedHashMap<>();
 
-        List<Object[]> results = repository.countByDayNative();
+        try {
+            List<Object[]> results = repository.countByDayNative();
 
-        for (Object[] result : results) {
-            if (result[0] instanceof java.sql.Date) {
-                java.sql.Date sqlDate = (java.sql.Date) result[0];
-                LocalDate date = sqlDate.toLocalDate();
-                Long count = (Long) result[1];
-                stats.put(date, count);
+            for (Object[] result : results) {
+                LocalDate date = null;
+
+                if (result[0] instanceof java.sql.Date) {
+                    date = ((java.sql.Date) result[0]).toLocalDate();
+                } else if (result[0] instanceof String) {
+                    // Если FORMATDATETIME вернул строку
+                    date = LocalDate.parse((String) result[0]);
+                } else if (result[0] instanceof LocalDate) {
+                    date = (LocalDate) result[0];
+                }
+
+                if (date != null) {
+                    Long count = (Long) result[1];
+                    stats.put(date, count);
+                }
             }
+        } catch (Exception e) {
+            // Логируем ошибку, но не даем упасть всему запросу
+            System.err.println("Error getting stats by day: " + e.getMessage());
+            // Возвращаем пустую карту вместо ошибки
         }
 
         return stats;

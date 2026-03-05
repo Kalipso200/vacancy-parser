@@ -18,7 +18,7 @@ public class OpenAPIConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Vacancy Parser API")
-                        .description("Многопоточный парсер вакансий")
+                        .description("Multithreaded vacancy parser with Spring Boot")
                         .version("1.0.0")
                         .license(new License()
                                 .name("Apache 2.0")
@@ -26,7 +26,7 @@ public class OpenAPIConfig {
                 .servers(List.of(
                         new Server()
                                 .url("http://localhost:8080")
-                                .description("Локальный сервер")
+                                .description("Local server")
                 ));
     }
 }

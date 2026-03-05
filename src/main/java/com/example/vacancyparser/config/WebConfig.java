@@ -12,13 +12,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     private final RequestLogDaemon requestLogDaemon;
+    private final MetricsInterceptor metricsInterceptor;
 
-    public WebConfig(RequestLogDaemon requestLogDaemon) {
+    public WebConfig(RequestLogDaemon requestLogDaemon, MetricsInterceptor metricsInterceptor) {
         this.requestLogDaemon = requestLogDaemon;
+        this.metricsInterceptor = metricsInterceptor;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // Сначала добавляем MetricsInterceptor
+        registry.addInterceptor(metricsInterceptor)
+                .addPathPatterns("/api/**");
+
+        // Затем добавляем LoggingInterceptor
         registry.addInterceptor(new LoggingInterceptor(requestLogDaemon))
                 .addPathPatterns("/api/**", "/", "/health");
     }
@@ -44,15 +51,16 @@ public class WebConfig implements WebMvcConfigurer {
         @Override
         public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
                                     Object handler, Exception ex) {
-            long duration = System.currentTimeMillis() - startTime.get();
-            String method = request.getMethod();
-            String path = request.getRequestURI();
-            int status = response.getStatus();
+            Long start = startTime.get();
+            if (start != null) {
+                long duration = System.currentTimeMillis() - start;
+                String method = request.getMethod();
+                String path = request.getRequestURI();
+                int status = response.getStatus();
 
-            // Отправляем лог в демон-поток
-            requestLogDaemon.logRequest(method, path, status, duration);
-
-            startTime.remove();
+                requestLogDaemon.logRequest(method, path, status, duration);
+                startTime.remove();
+            }
         }
     }
 }
