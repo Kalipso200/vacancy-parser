@@ -128,7 +128,7 @@ public class HhRuParser implements SiteParser {
     }
 
     /**
-     * НОВЫЙ МЕТОД: Поиск вакансий с пагинацией (реактивный поток)
+     *  Поиск вакансий с пагинацией (реактивный поток)
      */
     public Flux<Vacancy> searchVacanciesReactive(SearchParams searchParams) {
         String uri = "/vacancies?" + searchParams.toQueryString();
