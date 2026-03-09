@@ -31,9 +31,9 @@ public class ParsingSchedulerService {
         System.out.println("Starting hourly parsing at " + LocalDateTime.now());
 
         List<String> urls = Arrays.asList(
-                "https://hh.ru/vacancy/78649602",
-                "https://hh.ru/vacancy/78649603",
-                "https://hh.ru/vacancy/78649604"
+                "https://api.hh.ru/vacancy/78649602",
+                "https://api.hh.ru/vacancy/78649603",
+                "https://api.hh.ru/vacancy/78649604"
         );
 
         scheduledExecutor.submit(() -> {

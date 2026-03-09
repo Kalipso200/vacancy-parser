@@ -6,6 +6,7 @@ import com.example.vacancyparser.service.MetricsService;
 import com.example.vacancyparser.service.RequestLogDaemon;
 import com.example.vacancyparser.service.storage.VacancyJpaStorageService;
 import io.micrometer.core.instrument.Timer;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -42,6 +43,26 @@ public class VacancyParserService {
         this.metricsService = metricsService;
     }
 
+    /**
+     * Синхронизация счетчика с базой данных при старте приложения
+     */
+    @PostConstruct
+    public void initCounter() {
+        long dbCount = storageService.getTotalCount();
+        totalParsedCount.set((int) dbCount);
+        metricsService.setDatabaseRecords(dbCount);
+
+        System.out.println("==========================================");
+        System.out.println(" VacancyParserService инициализирован:");
+        System.out.println("   - Записей в БД: " + dbCount);
+        System.out.println("   - Счетчик парсинга: " + totalParsedCount.get());
+        System.out.println("   - Доступно парсеров: " + parsers.size());
+        System.out.println("==========================================");
+
+        requestLogDaemon.addLog("INFO", "Parser",
+                String.format("Сервис инициализирован. БД: %d записей", dbCount));
+    }
+
     public ParserTask parseVacancyAsync(String url) {
         SiteParser parser = findParserForUrl(url);
         if (parser == null) {
@@ -70,6 +91,8 @@ public class VacancyParserService {
                     // Сохраняем в БД
                     storageService.save(vacancy);
                     task.setParsedCount(1);
+
+                    // Увеличиваем счетчик успешных парсингов
                     totalParsedCount.incrementAndGet();
 
                     // Обновляем метрики
@@ -112,8 +135,9 @@ public class VacancyParserService {
             } finally {
                 metricsService.setActiveParsingTasks(activeTasks.size());
                 metricsService.setDatabaseRecords(storageService.getTotalCount());
+
                 // Периодически выводим метрики (каждые 10 успешных парсингов)
-                if (totalParsedCount.get() % 10 == 0) {
+                if (totalParsedCount.get() % 10 == 0 && totalParsedCount.get() > 0) {
                     metricsService.printMetrics();
                 }
             }
@@ -124,6 +148,14 @@ public class VacancyParserService {
     }
 
     public List<ParserTask> parseMultipleVacancies(List<String> urls) {
+        if (urls == null || urls.isEmpty()) {
+            requestLogDaemon.addLog("WARN", "Parser", "Попытка парсинга пустого списка URL");
+            return List.of();
+        }
+
+        requestLogDaemon.addLog("INFO", "Parser",
+                String.format("Запуск множественного парсинга: %d URL", urls.size()));
+
         metricsService.setActiveParsingTasks(activeTasks.size() + urls.size());
 
         List<ParserTask> tasks = urls.stream()
@@ -134,8 +166,15 @@ public class VacancyParserService {
     }
 
     public Flux<Vacancy> parseMultipleUrlsReactive(List<String> urls) {
+        if (urls == null || urls.isEmpty()) {
+            return Flux.empty();
+        }
+
         AtomicInteger counter = new AtomicInteger(0);
         int total = urls.size();
+
+        requestLogDaemon.addLog("INFO", "Reactive",
+                String.format("🚀 Запуск реактивного парсинга: %d URL", total));
 
         metricsService.setActiveParsingTasks(activeTasks.size() + urls.size());
 
@@ -156,26 +195,33 @@ public class VacancyParserService {
                                 storageService.save(vacancy);
                                 int current = counter.incrementAndGet();
 
+                                // Увеличиваем счетчик успешных парсингов
+                                totalParsedCount.incrementAndGet();
+
                                 // Обновляем метрики
                                 metricsService.incrementSuccessfulParsing(parser.getSourceName());
                                 metricsService.incrementDatabaseRecords(1);
                                 metricsService.stopParsingTimer(timerSample, parser.getSourceName(), true);
 
                                 requestLogDaemon.addLog("INFO", "Reactive",
-                                        String.format("📊 Прогресс: %d/%d - '%s' (%d мс)",
+                                        String.format(" Прогресс: %d/%d - '%s' (%d мс)",
                                                 current, total, vacancy.getTitle(), duration));
 
                                 return Flux.just(vacancy);
+                            } else {
+                                metricsService.incrementFailedParsing(parser.getSourceName(), "parse_failed");
+                                metricsService.stopParsingTimer(timerSample, parser.getSourceName(), false);
+
+                                requestLogDaemon.addLog("ERROR", "Reactive",
+                                        String.format(" Не удалось спарсить: %s", url));
                             }
+                        } else {
+                            metricsService.incrementFailedParsing("unknown", "no_parser");
+                            metricsService.stopParsingTimer(timerSample, "unknown", false);
+
+                            requestLogDaemon.addLog("ERROR", "Reactive",
+                                    String.format(" Нет парсера для: %s", url));
                         }
-
-                        metricsService.incrementFailedParsing(
-                                parser != null ? parser.getSourceName() : "unknown",
-                                "parse_failed"
-                        );
-                        metricsService.stopParsingTimer(timerSample,
-                                parser != null ? parser.getSourceName() : "unknown", false);
-
                     } catch (Exception e) {
                         metricsService.incrementFailedParsing("unknown", e.getClass().getSimpleName());
                         metricsService.stopParsingTimer(timerSample, "unknown", false);
@@ -212,29 +258,60 @@ public class VacancyParserService {
                 .orTimeout(10, TimeUnit.SECONDS)
                 .exceptionally(throwable -> {
                     metricsService.incrementFailedParsing("parallel", "processing_error");
+                    requestLogDaemon.addLog("ERROR", "Parallel",
+                            String.format("Ошибка параллельной обработки: %s", throwable.getMessage()));
                     return null;
                 });
     }
 
     private Vacancy enrichVacancyData(Vacancy vacancy) {
+        // Дополнительная обработка данных вакансии
+        if (vacancy.getRequirements() != null) {
+            String req = vacancy.getRequirements().toLowerCase();
+            if (req.contains("java")) {
+                requestLogDaemon.addLog("INFO", "Analysis",
+                        "Java position detected: " + vacancy.getTitle());
+            }
+            if (req.contains("spring")) {
+                requestLogDaemon.addLog("INFO", "Analysis",
+                        "Spring framework required: " + vacancy.getTitle());
+            }
+        }
         return vacancy;
     }
 
     private void logEnrichedData(Vacancy vacancy) {
-        // Логирование
+        // Логирование обогащенных данных
+        requestLogDaemon.addLog("DEBUG", "Enrich",
+                String.format("Вакансия обогащена: %s (%s)",
+                        vacancy.getTitle(), vacancy.getCompany()));
     }
 
     public ParserTask getTaskStatus(String taskId) {
-        return activeTasks.get(taskId);
+        ParserTask task = activeTasks.get(taskId);
+        if (task != null) {
+            requestLogDaemon.addLog("DEBUG", "Tasks",
+                    String.format("Запрос статуса задачи %s: %s",
+                            taskId.substring(0, 8), task.getStatus()));
+        }
+        return task;
     }
 
     public List<ParserTask> getAllTasks() {
-        return List.copyOf(activeTasks.values());
+        List<ParserTask> tasks = List.copyOf(activeTasks.values());
+        requestLogDaemon.addLog("DEBUG", "Tasks",
+                String.format("Запрос списка задач: %d активных", tasks.size()));
+        return tasks;
     }
 
     public void removeCompletedTask(String taskId) {
-        activeTasks.remove(taskId);
-        metricsService.setActiveParsingTasks(activeTasks.size());
+        ParserTask task = activeTasks.remove(taskId);
+        if (task != null) {
+            metricsService.setActiveParsingTasks(activeTasks.size());
+            requestLogDaemon.addLog("INFO", "Tasks",
+                    String.format("Удалена задача %s со статусом %s",
+                            taskId.substring(0, 8), task.getStatus()));
+        }
     }
 
     public int getTotalParsedCount() {
@@ -248,11 +325,13 @@ public class VacancyParserService {
         );
         metricsService.setActiveParsingTasks(activeTasks.size());
 
-        if (beforeCount - activeTasks.size() > 0) {
+        int removedCount = beforeCount - activeTasks.size();
+        if (removedCount > 0) {
             requestLogDaemon.addLog("INFO", "Tasks",
-                    String.format("Очищено %d завершенных задач", beforeCount - activeTasks.size()));
+                    String.format("Очищено %d завершенных задач", removedCount));
         }
     }
+
     public SiteParser getParserForSource(String source) {
         return parsers.stream()
                 .filter(parser -> parser.getSourceName().equals(source))
